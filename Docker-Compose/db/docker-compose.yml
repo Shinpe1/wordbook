@@ -1,0 +1,38 @@
+# docker-composeのバージョン
+version: '3'
+# サービス群の定義
+services:
+    # サービス名
+    db: 
+        image: mysql:8.0  # MySQL8.0のイメージを使用
+        container_name: wordbook_db  # Dockerコンテナ名
+        # コンテナ内で使用する各種環境変数
+        environment:
+            MYSQL_ROOT_PASSWORD: password  # ルートパスワード
+            MYSQL_DATABASE: wordbook  # 初期化時に作成するDBの名前
+            MYSQL_USER: user  # userという名前の一般ユーザも作る
+            MYSQL_PASSWORD: user  # userのパスワード
+            TZ: 'Asia/Tokyo'  # タイムゾーン
+        # コンテナ内でmysqlデーモンを指定の文字セットで起動するコマンド（コンテナ起動時に自動実行）
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        # コンテナ内のデータをホスト（コンテナ外）に永続化する定義
+        # 「ホスト側:コンテナ側」と書く
+        volumes:
+            - ./initdb/db/data:/var/lib/mysql  # mysqlデータ
+            - ./initdb/db/my.cnf:/etc/mysql/conf.d/my.cnf  # mysql設定ファイル
+            - ./initdb/db/sql:/docker-entrypoint-initdb.d  # 初期化スクリプト置き場（*.sql, *.sh）
+        # 外部ポートとつなげる設定
+        ports:
+            - 3306:3306
+    
+    # phoMyAdmin
+    phpmyadmin:
+        container_name: wordbook_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_ARBITARY=1
+            - PMA_HOSTS=wordbook_db
+            - PMA_USER=root
+            - PMA_PASSWORD=password
+        ports: 
+            - 8080:80
