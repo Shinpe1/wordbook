@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"time"
 
 	. "github.com/Shinpe1/wordbook_web/internal/apps/wordbook/model/entity"
@@ -43,8 +42,6 @@ func UpdateBookService(model *UpdateBookComp) {
 		contents = append(contents, content)
 	}
 	book.Contents = contents
-
-	fmt.Println(book)
 
 	// books, contentsテーブルをそれぞれ更新します
 	db.Model(&book).Update(&book)
