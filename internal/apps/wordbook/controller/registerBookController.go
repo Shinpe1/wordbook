@@ -10,7 +10,8 @@ import (
 
 /** 単語帳を新規登録します */
 func RegisterBookController(ctx *gin.Context) {
-	// パラメータの取得
+	// リクエストボディの取得
+	// JSONの形にキャスト
 	var request NewBook
 	err := ctx.ShouldBindJSON(&request)
 	if err != nil {
