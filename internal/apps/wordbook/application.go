@@ -31,20 +31,26 @@ func Run() {
 			// 単語帳更新
 			updateUrl.POST("", controller.UpdateBookController)
 		}
+		// 追加API
+		insertUrl := originPath.Group("/insert")
+		{
+			// 単語帳追加
+			insertUrl.POST("", controller.InsertBookController)
+		}
 		// 削除API
-		deleteUrl := originPath.Group("/delete")
+		deleteUrl := originPath.Group("/delte")
 		{
 			// 単語帳削除
 			deleteUrl.POST("", controller.DeleteBookController)
 		}
 		// 認証API
-		// authAPI := router.Group("/auth")
+		// authAPI := rouer.Group("/auth")
 		// {
-		// 	// ユーザー登録
+		// 	/ ユーザー登録
 		// 	authAPI.POST("/", controller.RegisterUserController)
-		// 	// ログイン
-		// 	authAPI.POST("/login", controller.LoginUserController)
-		// 	// トークンリフレッシュ
+	// 	// ログイン
+		// 	authAPI.POST("login", controller.LoginUserController)
+	// 	// トークンリフレッシュ
 		// 	authAPI.POST("/refresh", controller.RefreshTokenController)
 		// }
 	}
