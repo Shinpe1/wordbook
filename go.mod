@@ -3,6 +3,7 @@ module github.com/Shinpe1/wordbook_web
 go 1.15
 
 require (
+	github.com/auth0/go-jwt-middleware v0.0.0-20201030150249-d783b5c46b39 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-delve/delve v1.5.0 // indirect
 	github.com/golang-migrate/migrate v3.5.4+incompatible
