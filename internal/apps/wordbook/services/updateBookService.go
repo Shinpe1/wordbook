@@ -1,6 +1,7 @@
 package services
 
 import (
+	"log"
 	"time"
 
 	. "github.com/Shinpe1/wordbook_web/internal/apps/wordbook/model/entity"
@@ -9,15 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UpdateBookService(model *UpdateBookComp) {
-	// err := inputValidaiton(model)
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
+func UpdateBookService(model *UpdateBookComp) error {
+	log.Println("#UpdateBookService start;")
 
 	db, err := db.ConnectDB()
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 
 	defer db.Close()
@@ -43,8 +41,20 @@ func UpdateBookService(model *UpdateBookComp) {
 	}
 	book.Contents = contents
 
+	tx := db.Begin()
 	// books, contentsテーブルをそれぞれ更新します
-	db.Model(&book).Update(&book)
+	err = tx.Model(&book).Update(&book).Error
+	if err != nil {
+		log.Println(err.Error())
+		tx.Rollback()
+		return err
+	} else {
+		tx.Commit()
+	}
+
+	log.Println("#UpdateBookService end;")
+
+	return nil
 }
 
 /** テーブルに保存します */

@@ -15,12 +15,17 @@ func GetBookListController(ctx *gin.Context) {
 
 	userId, err := strconv.Atoi(ctx.Query("userId"))
 	if err != nil {
-		log.Println("Requested with invalid parameters")
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Invalid Parameter"})
 		return
 	}
 
-	books := services.GetListService(userId)
+	books, err := services.GetListService(userId)
+	if err != nil {
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusNoContent, gin.H{"message": "request success but no content returned"})
+		return
+	}
 
 	ctx.JSONP(http.StatusOK, gin.H{
 		"message":  "ok",
@@ -37,19 +42,24 @@ func GetIndividualBookController(ctx *gin.Context) {
 	// userIdをint型にパース
 	userId, err := strconv.Atoi(ctx.Query("userId"))
 	if err != nil {
-		log.Println("Requested with invalid parameters")
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Invalid Parameter"})
 		return
 	}
 	// bookIdを基数10の64bit型に変換
 	bookId, err := strconv.ParseInt(ctx.Query("bookId"), 10, 64)
 	if err != nil {
-		log.Println("Requested with invalid parameters")
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Invalid Parameter"})
 		return
 	}
 
-	contents := services.GetIndividualBookService(userId, bookId)
+	contents, err := services.GetIndividualBookService(userId, bookId)
+	if err != nil {
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusNoContent, gin.H{"message": "request success but no content returned"})
+		return
+	}
 
 	ctx.JSONP(http.StatusOK, gin.H{
 		"message":  "ok",

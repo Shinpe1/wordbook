@@ -20,7 +20,7 @@ func ConnectDB() (database *gorm.DB, err error) {
 
 	db, err := gorm.Open(DBMS, CONNECT)
 	if err != nil {
-		return db, errors.New("Can't established connection with DB;")
+		return db, errors.New("Can't establish DB connection;")
 	}
 
 	// 発行したSQLを標準出力に出す
