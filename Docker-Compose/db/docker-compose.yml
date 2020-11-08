@@ -8,13 +8,13 @@ services:
         container_name: wordbook_db  # Dockerコンテナ名
         # コンテナ内で使用する各種環境変数
         environment:
-            MYSQL_ROOT_PASSWORD: password  # ルートパスワード
+            MYSQL_ROOT_PASSWORD: password  # ルートパスワード   
             MYSQL_DATABASE: wordbook  # 初期化時に作成するDBの名前
             MYSQL_USER: user  # userという名前の一般ユーザも作る
             MYSQL_PASSWORD: user  # userのパスワード
             TZ: 'Asia/Tokyo'  # タイムゾーン
         # コンテナ内でmysqlデーモンを指定の文字セットで起動するコマンド（コンテナ起動時に自動実行）
-        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --secure-file-priv=""
         # コンテナ内のデータをホスト（コンテナ外）に永続化する定義
         # 「ホスト側:コンテナ側」と書く
         volumes:
