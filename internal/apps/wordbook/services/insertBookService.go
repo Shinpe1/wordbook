@@ -14,7 +14,7 @@ func InsertBookService(model *InsertBookComp) error {
 	log.Println("#InsertBookService start;")
 	db, err := db.ConnectDB()
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	tx := db.Begin()
 
@@ -35,13 +35,17 @@ func InsertBookService(model *InsertBookComp) error {
 		content.UpdatedAt = now
 
 		err = tx.Create(&content).Error
-	}
-	if err != nil {
-		tx.Rollback()
-		return errors.New("couldn't save records")
+
+		if err != nil {
+			// TODO: 外部キー制約とかに引っかかった場合はどう返す？今は一律で503が返ってる
+			log.Println(err.Error())
+			tx.Rollback()
+			return errors.New("couldn't save records")
+		}
 	}
 	tx.Commit()
 
 	log.Println("#InsertBookService end;")
+
 	return nil
 }

@@ -15,14 +15,15 @@ func DeleteBookController(ctx *gin.Context) {
 	var request DeleteBookComp
 	err := ctx.ShouldBindJSON(&request)
 	if err != nil {
-		log.Println("Requested with invalid parameters;")
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameters": err.Error()})
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Invalid Parameters"})
 		return
 	}
 
 	err = DeleteBookService(&request)
 	if err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		log.Println(err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	} else {
 		ctx.JSONP(http.StatusOK, gin.H{

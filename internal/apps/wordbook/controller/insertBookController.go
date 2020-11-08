@@ -23,10 +23,12 @@ func InsertBookController(ctx *gin.Context) {
 
 	err = InsertBookService(&request)
 	if err != nil {
+		log.Println(err.Error())
 		// 503エラー（DB更新エラーでこれを返していいのか？）
 		ctx.AbortWithStatusJSON(
 			http.StatusServiceUnavailable,
 			gin.H{"Couldn't save records into Database;": err.Error()})
+		return
 	}
 
 	ctx.JSONP(http.StatusOK, gin.H{
@@ -34,4 +36,5 @@ func InsertBookController(ctx *gin.Context) {
 		"response": "insert succeeded",
 	})
 
+	log.Println("#InsertBookController end;")
 }
