@@ -14,14 +14,13 @@ func InsertBookService(model *InsertBookComp) error {
 	log.Println("#InsertBookService start;")
 	db, err := db.ConnectDB()
 	if err != nil {
-		return errors.New("couldn't connect database;")
+		panic(err.Error())
 	}
 	tx := db.Begin()
 
 	log.Println("requested model: ", model)
 
 	defer db.Close()
-	tx.LogMode(true)
 
 	// forで繰り返してレコードの挿入
 	// 公式docにあるバルクインサートがなぜかできない...

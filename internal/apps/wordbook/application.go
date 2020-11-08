@@ -38,7 +38,7 @@ func Run() {
 			insertUrl.POST("", controller.InsertBookController)
 		}
 		// 削除API
-		deleteUrl := originPath.Group("/delte")
+		deleteUrl := originPath.Group("/delete")
 		{
 			// 単語帳削除
 			deleteUrl.POST("", controller.DeleteBookController)
@@ -48,9 +48,9 @@ func Run() {
 		// {
 		// 	/ ユーザー登録
 		// 	authAPI.POST("/", controller.RegisterUserController)
-	// 	// ログイン
+		// 	// ログイン
 		// 	authAPI.POST("login", controller.LoginUserController)
-	// 	// トークンリフレッシュ
+		// 	// トークンリフレッシュ
 		// 	authAPI.POST("/refresh", controller.RefreshTokenController)
 		// }
 	}

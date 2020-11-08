@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -10,10 +11,13 @@ import (
 
 /** 単語帳一覧取得 */
 func GetBookListController(ctx *gin.Context) {
+	log.Println("#GetBookListController start;")
 
 	userId, err := strconv.Atoi(ctx.Query("userId"))
 	if err != nil {
+		log.Println("Requested with invalid parameters")
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		return
 	}
 
 	books := services.GetListService(userId)
@@ -22,20 +26,27 @@ func GetBookListController(ctx *gin.Context) {
 		"message":  "ok",
 		"response": books,
 	})
+
+	log.Println("#GetBookListController end;")
 }
 
 /** 個別単語帳取得 */
 func GetIndividualBookController(ctx *gin.Context) {
+	log.Println("#GetIndividualBookController start;")
 
 	// userIdをint型にパース
 	userId, err := strconv.Atoi(ctx.Query("userId"))
 	if err != nil {
+		log.Println("Requested with invalid parameters")
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		return
 	}
 	// bookIdを基数10の64bit型に変換
 	bookId, err := strconv.ParseInt(ctx.Query("bookId"), 10, 64)
 	if err != nil {
+		log.Println("Requested with invalid parameters")
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"Invalid Parameter": err.Error()})
+		return
 	}
 
 	contents := services.GetIndividualBookService(userId, bookId)
@@ -44,5 +55,7 @@ func GetIndividualBookController(ctx *gin.Context) {
 		"message":  "ok",
 		"response": contents,
 	})
+
+	log.Println("#GetIndividualBookController end;")
 
 }
