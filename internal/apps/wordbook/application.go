@@ -43,16 +43,16 @@ func Run() {
 			// 単語帳削除
 			deleteUrl.POST("", controller.DeleteBookController)
 		}
-		// 認証API
-		// authAPI := rouer.Group("/auth")
-		// {
-		// 	/ ユーザー登録
-		// 	authAPI.POST("/", controller.RegisterUserController)
-		// 	// ログイン
-		// 	authAPI.POST("login", controller.LoginUserController)
-		// 	// トークンリフレッシュ
-		// 	authAPI.POST("/refresh", controller.RefreshTokenController)
-		// }
+		//認証API
+		authUrl := originPath.Group("/auth")
+		{
+			// ユーザー登録
+			authUrl.POST("/register", controller.RegisterUserController)
+			// ログイン
+			authUrl.POST("/login", controller.LoginUserController)
+			// トークンリフレッシュ
+			// authAPI.POST("/refresh", controller.RefreshTokenController)
+		}
 	}
 
 	router.Run(":8000")
