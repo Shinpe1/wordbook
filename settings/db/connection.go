@@ -19,7 +19,7 @@ func ConnectDB() (database *gorm.DB, err error) {
 	// DBNAME := "wordbook"
 
 	// datetime型をtime.Timeで受け取れるようにするため,parseTime=trueを指定している
-	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
+	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&reconnect=true&parseTime=true&loc=Asia%2FTokyo"
 
 	db, err := gorm.Open(DBMS, CONNECT)
 	if err != nil {

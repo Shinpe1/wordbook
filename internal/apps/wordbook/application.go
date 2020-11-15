@@ -3,6 +3,7 @@ package wordbook
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Shinpe1/wordbook_web/internal/apps/wordbook/controller"
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -72,7 +73,7 @@ func Run() {
 		})
 	})
 
-	err := router.Run(":8000")
+	err := router.Run(":" + os.Getenv("PORT"))
 	if err != nil {
 		panic(err.Error())
 	}

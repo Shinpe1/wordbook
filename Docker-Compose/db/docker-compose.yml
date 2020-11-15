@@ -2,7 +2,7 @@
 version: '3'
 # サービス群の定義
 services:
-    # サービス名
+    # コンテナ名
     db: 
         image: mysql:8.0  # MySQL8.0のイメージを使用
         container_name: wordbook_db  # Dockerコンテナ名
