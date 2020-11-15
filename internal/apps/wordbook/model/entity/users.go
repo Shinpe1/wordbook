@@ -1,13 +1,12 @@
 package entity
 
 import (
-	"database/sql"
 	"time"
 )
 
 type User struct {
 	ID        int
-	Name      sql.NullString
+	Name      *string
 	Email     string
 	Password  string
 	CreatedAt time.Time

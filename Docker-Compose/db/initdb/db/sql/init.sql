@@ -1,4 +1,3 @@
-TRUNCATE DATABASE wordbook;
 CREATE DATABASE IF NOT EXISTS wordbook;
 USE wordbook;
 

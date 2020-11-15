@@ -1,6 +1,8 @@
 package services
 
 import (
+	"errors"
+	"log"
 	"time"
 
 	. "github.com/Shinpe1/wordbook_web/internal/apps/wordbook/model/entity"
@@ -8,14 +10,15 @@ import (
 	"github.com/Shinpe1/wordbook_web/settings/db"
 )
 
-func RegisterNewBookService(model *NewBook) {
+func RegisterNewBookService(model *NewBook) error {
+	log.Println("#RegisterNewBookService start;")
 	// 入力チェック
 	inputValidation(model)
 
 	// データベースに接続します
 	db, err := db.ConnectDB()
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
 	defer db.Close()
 
@@ -41,7 +44,20 @@ func RegisterNewBookService(model *NewBook) {
 	}
 	newBook.Contents = contents
 
-	db.Create(&newBook)
+	tx := db.Begin()
+
+	err = tx.Create(&newBook).Error
+	if err != nil {
+		log.Println("Couldn't create new book")
+		tx.Rollback()
+		return errors.New("Couldn't create new book")
+	} else {
+		tx.Commit()
+	}
+
+	log.Println("#RegisterNewBookService end;")
+
+	return nil
 }
 
 /** 入力の検証を行います */

@@ -25,7 +25,7 @@ func DeleteBookService(model *DeleteBookComp) error {
 	} else {
 		// コンテンツを各個削除する
 		for _, id := range model.ContentsId {
-			err = tx.Delete(&Content{}, id).Error
+			err = tx.Where("id = ? AND user_id = ? AND book_id = ?", id, model.UserId, model.BookId).Delete(&Content{}).Error
 			if err != nil {
 				break
 			}
@@ -33,6 +33,7 @@ func DeleteBookService(model *DeleteBookComp) error {
 	}
 
 	if err != nil {
+		log.Println(err.Error())
 		tx.Rollback()
 		return errors.New("couldn't delete records. Please try again")
 	} else {
