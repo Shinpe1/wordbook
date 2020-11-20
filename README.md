@@ -1,6 +1,6 @@
 # wordbook
 
-自作の単語帳アプリのWebプロジェクトです
+オリジナル単語帳アプリのAPIプロジェクトです
 ---
 
 **目次**
@@ -24,7 +24,4 @@ Android Kotlin
 Go
 
 【ミドルウェア】  
-JWT
-
-# ドキュメント
-[ドキュメント](https://drive.google.com/drive/folders/145Oct_SfK1TrvYaDjYPOi_jWkqhh6kOT?usp=sharing)
+JWT : 認証・認可
