@@ -1,7 +1,7 @@
 package db
 
 import (
-	"errors"
+	"log"
 	"os"
 
 	"github.com/jinzhu/gorm"
@@ -17,11 +17,12 @@ func ConnectDB() (database *gorm.DB, err error) {
 	DBNAME := os.Getenv("DB_NAME")
 
 	// datetime型をtime.Timeで受け取れるようにするため,parseTime=trueを指定している
-	CONNECT := USER + ":" + PASS + "@" + HOSTNAME + "/" + DBNAME + "?charset=utf8&reconnect=true&parseTime=true&loc=Asia%2FTokyo"
+	CONNECT := USER + ":" + PASS + "@" + HOSTNAME + ")/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
+	log.Println("connect : " + CONNECT)
 
 	db, err := gorm.Open(DBMS, CONNECT)
 	if err != nil {
-		return db, errors.New("Can't establish DB connection;")
+		return db, err
 	}
 
 	// 発行したSQLを標準出力に出す
