@@ -66,7 +66,7 @@ func init() {
 			return false
 		},
 
-		// POSTされたデータの検証
+		// ログイン画面からPOSTされたデータの検証
 		Authenticator: func(ctx *gin.Context) (interface{}, error) {
 			var user request.LoginUserRequest
 
